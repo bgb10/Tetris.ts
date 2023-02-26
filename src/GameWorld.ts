@@ -42,6 +42,7 @@ export class GameWorld {
     
     //------Constructor------//
 
+    // constructor 는 빈 객체를 만들고 나서 실행이 된다.
     constructor(width: number, height: number) {
         this._shapeFactory = new ShapeFactory();
         this._map = new GameMap(width, height);

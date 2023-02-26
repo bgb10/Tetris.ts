@@ -53,7 +53,7 @@ function gameLoop(): void {
         draw();
     }
     keyboard.reset();
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(gameLoop); // 적절한 시점에 1번 실행시켜줌.(60프레임 미만) animation 에서 사용.
 }
 
 start();
