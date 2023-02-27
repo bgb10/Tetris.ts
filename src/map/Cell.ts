@@ -1,11 +1,11 @@
 
 export class Cell {
 
-    //------Members------//
+    
+    private _color : string;
+//------Members------//
 
     private _filled : boolean;
-    private _color : string;
-
     //------Properties------//
 
     public get color() : string {

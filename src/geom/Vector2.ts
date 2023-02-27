@@ -1,7 +1,12 @@
 
 export class Vector2 {
 
-    //------Members------//
+    
+    static get Zero() {
+        return new Vector2(0, 0);
+    }
+
+//------Members------//
 
     private _x: number;
     private _y: number;
@@ -21,10 +26,6 @@ export class Vector2 {
     
     get Y() {
         return this._y;
-    }
-
-    static get Zero() {
-        return new Vector2(0, 0);
     }
 
     //------Public Methods------//
