@@ -8,10 +8,9 @@ import { GameMap } from './map/GameMap'
 import { ShapeFactory } from './shape/ShapeFactory'
 
 export class GameWorld {
-  
   private _frame: number
   private _gameOver: boolean
-//------Members------//
+  //------Members------//
 
   private _map: GameMap
   private _updateEveryXFrames: number
@@ -84,11 +83,7 @@ export class GameWorld {
       const reachedBorder = this._movingShape.cells.some((cell) => {
         const nextX = cell.X + toMoveX
         const partOfShape = this._movingShape.isPartOfShape(cell.addX(toMoveX))
-        return (
-          nextX < 0 ||
-          nextX === this._map.width ||
-          (this._map.isCellFilled(nextX, cell.Y) && !partOfShape)
-        )
+        return nextX < 0 || nextX === this._map.width || (this._map.isCellFilled(nextX, cell.Y) && !partOfShape)
       })
 
       if (!reachedBorder) {
@@ -118,10 +113,7 @@ export class GameWorld {
 
     let possibleRotation = newShape.every((cell) => {
       const partOfShape = this._movingShape.isPartOfShape(cell)
-      return (
-        this._map.isInMap(cell.X, cell.Y) &&
-        (!this._map.isCellFilled(cell.X, cell.Y) || partOfShape)
-      )
+      return this._map.isInMap(cell.X, cell.Y) && (!this._map.isCellFilled(cell.X, cell.Y) || partOfShape)
     })
 
     if (possibleRotation) {
@@ -135,10 +127,7 @@ export class GameWorld {
     const reachedBottom = this._movingShape.cells.some((cell) => {
       const nextY: number = cell.Y + 1
       const partOfShape = this._movingShape.isPartOfShape(cell.addY(1))
-      return (
-        nextY === this._map.height ||
-        (this._map.isCellFilled(cell.X, nextY) && !partOfShape)
-      )
+      return nextY === this._map.height || (this._map.isCellFilled(cell.X, nextY) && !partOfShape)
     })
 
     if (!reachedBottom) {
@@ -167,9 +156,7 @@ export class GameWorld {
   }
 
   private generateRandomShape(): Shape {
-    const randomShapeTypeIndex = Math.floor(
-      Math.random() * this._shapeTypes.length
-    )
+    const randomShapeTypeIndex = Math.floor(Math.random() * this._shapeTypes.length)
     let shapeColor = GAME_CONFIG.SHAPE_COLORS[randomShapeTypeIndex]
 
     return this._shapeFactory.createShape(
@@ -196,8 +183,7 @@ export class GameWorld {
       let demoShape = this._shapeFactory.createShape(
         shape.shapeType,
         new Vector2(
-          GAME_CONFIG.NEXT_SHAPE_POSITION.X +
-            indexFromEnd * 4 * GAME_CONFIG.NEXT_SHAPE_CELL_SIZE,
+          GAME_CONFIG.NEXT_SHAPE_POSITION.X + indexFromEnd * 4 * GAME_CONFIG.NEXT_SHAPE_CELL_SIZE,
           GAME_CONFIG.NEXT_SHAPE_POSITION.Y
         ),
         shape.color,
@@ -241,6 +227,8 @@ export class GameWorld {
 
   public update(): void {
     this.handleInput()
+    // 몇 프레임마다 update를 할 것인지 정해서 게임 난이도 조절 가능
+    // 지정된 프레임에 도달하기 전까지는 update 를 하지 않음.
     if (++this._frame % this._updateEveryXFrames) {
       return
     }
@@ -256,6 +244,7 @@ export class GameWorld {
     }
   }
 
+  // 내부 데이터가 업데이트되는 것은 updateEveryXFrames / 60 sec 마다 update 되지만, 캔버스는 frame 마다 그린다. 즉, 1 / 60 sec 마다 frame 을 그린다.
   public draw(): void {
     this._map.draw()
     this.drawScore()

@@ -1,5 +1,6 @@
 export const GAME_CONFIG: any = {
   // PHYSICS
+  // 속도와 관련이 있음. 초당 60프레임 정도인데 40프레임만 지나고 update 하면 40/60 초마다 한번씩 떨어지겠지.
   UPDATE_AFTER_X_FRAMES: 40,
 
   // SIZING
